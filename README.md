@@ -1,6 +1,6 @@
 # Runtime for stm32f4 platform
 
-Creates runtime environment that allows running apps on MPS AN386 via QEMU. One needs to build the solution, link resulting static library with the application and push to the board. Solution contains implementation of `printf` that sends data over UART to the terminal.
+Creates runtime environment that allows running apps on MPS AN386 (ARM Cortex-M4) via QEMU. One needs to build the solution, link resulting static library with the application and push to the board. Solution contains implementation of `printf` that sends data over UART to the terminal.
 
 ## Building
 
