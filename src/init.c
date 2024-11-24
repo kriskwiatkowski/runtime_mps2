@@ -28,9 +28,11 @@
 /// ############################
 
 static void setup_fpu(void) {
+#if defined(MPS2_AN386)
     // Enable the FPU
     SCB->CPACR |= ((3UL << 10 * 2) | /* set CP10 Full Access */
                    (3UL << 11 * 2)); /* set CP11 Full Access */
+#endif
 }
 
 volatile unsigned long long stm32_sys_tick_overflowcnt = 0;
@@ -115,4 +117,14 @@ void platform_sync(void) {
     // wait for the first systick overflow
     unsigned long long old = stm32_sys_tick_overflowcnt;
     while (old == stm32_sys_tick_overflowcnt) {};
+}
+
+/* End of BSS is where the heap starts (defined in the linker script) */
+extern char end;
+static char* heap_end = &end;
+
+uint64_t platform_mps2_stack_size(void) {
+    register char* cur_stack;
+    __asm__ volatile("mov %0, sp" : "=r"(cur_stack));
+    return cur_stack - heap_end;
 }

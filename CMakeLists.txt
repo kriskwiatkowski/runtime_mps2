@@ -10,8 +10,8 @@ set(CMAKE_INSTALL_BINDIR ${OUTPUT}/bin)
 set(CMAKE_INSTALL_LIBDIR ${OUTPUT}/lib)
 set(CMAKE_INSTALL_SRCDIR ${OUTPUT}/src)
 set(CMAKE_INSTALL_INCLUDEDIR ${OUTPUT}/include/platform)
-set(LINKER_SCRIPT_SRC ${PROJECT_SOURCE_DIR}/src/mps2-ans386.src.ld)
-set(LINKER_SCRIPT ${CMAKE_CURRENT_SOURCE_DIR}/mps2-ans386.ld)
+set(LINKER_SCRIPT_SRC ${PROJECT_SOURCE_DIR}/src/mps2.src.ld)
+set(LINKER_SCRIPT ${CMAKE_CURRENT_SOURCE_DIR}/mps2.ld)
 set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}")
 
 include(postbuild)
@@ -41,7 +41,6 @@ target_sources(
 target_compile_definitions(
     ${MAIN_TARGET} PRIVATE
     ${EXTRA_C_FLAGS}
-    -DMPS2_AN386
     -DDATA_IN_FLASH)
 
 target_include_directories(

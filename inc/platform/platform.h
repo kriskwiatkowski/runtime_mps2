@@ -47,3 +47,5 @@ int platform_get_random(void *out, unsigned len);
 
 // Improves benchmark results
 void platform_sync(void);
+
+uint64_t platform_mps2_stack_size(void);

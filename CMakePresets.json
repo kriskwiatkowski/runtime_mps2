@@ -7,6 +7,17 @@
     },
     "configurePresets": [
         {
+            "name": "an385",
+            "displayName": "ARMv7-M",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/out/${presetName}",
+            "toolchainFile": "toolchains/gcc-armv7_m-unknown-none-eabi.toolchain",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release",
+                "EXTRA_C_FLAGS": "-DMPS2_AN385"
+            }
+        },
+        {
             "name": "an386",
             "displayName": "ARMv7e-M",
             "generator": "Ninja",
@@ -14,11 +25,19 @@
             "toolchainFile": "toolchains/gcc-armv7e_m-unknown-none-eabi.toolchain",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Release",
-                "EXTRA_C_FLAGS": ""
+                "EXTRA_C_FLAGS": "-DMPS2_AN386"
             }
         }
     ],
     "buildPresets": [
+        {
+            "name": "an385",
+            "configurePreset": "an385",
+            "targets": [
+                "all",
+                "install"
+            ]
+        },
         {
             "name": "an386",
             "configurePreset": "an386",
