@@ -26,7 +26,7 @@ int main(void) {
     uint64_t t = platform_cpu_cyclecount();
     i++;
     t = platform_cpu_cyclecount() - t;
-    printf("\n Hello world %u %u.\n", (uint32_t)(t >> 32), (uint32_t)t);
+    printf("Hello world %u %u.\n", (uint32_t)(t >> 32), (uint32_t)t);
 
     return i;
 }

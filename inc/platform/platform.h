@@ -46,4 +46,4 @@ uint64_t platform_cpu_cyclecount(void);
 int platform_get_random(void *out, unsigned len);
 
 // Improves benchmark results
-inline void platform_sync(void) {}
+void platform_sync(void);

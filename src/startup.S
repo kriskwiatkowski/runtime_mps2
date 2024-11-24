@@ -43,7 +43,7 @@ __isr_vector:
     .long    DebugMon_Handler      /* Debug Monitor Handler */
     .long    0                     /* Reserved */
     .long    PendSV_Handler        /* PendSV Handler */
-    .long    SysTick_Handler       /* SysTick Handler */
+    .long    systick_handler       /* SysTick Handler */
 
     /* External Interrupts */
     .long     UARTRX0_Handler           /* UART 0 RX Handler                 */
@@ -130,8 +130,6 @@ zero:
     bne   zero
 
 system_startup:
-    ldr    r0, =SystemInit
-    blx    r0
     mov    r0, #0 // Sets nargs to 0. Currently there is no possibility to pass arguments.
     ldr    r4, =main
     bx     r4

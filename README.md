@@ -16,5 +16,5 @@ Libraries will be compiled and placed in the ``build/pack`` directory.
 
 To run test program:
 ```
-qemu-system-arm -M mps2-an386 -nographic -semihosting -kernel out/am386/hello.bin
+qemu-system-arm -M mps2-an386 -nographic -semihosting -kernel out/an386/hello.bin
 ```

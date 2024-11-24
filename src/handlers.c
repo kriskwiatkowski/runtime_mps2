@@ -20,44 +20,6 @@
 
 #include "CMSDK_CM4.h"
 
-// Set clock to 25MHz (default on MPS2)
-#ifndef MPS2_SYSTEM_CLOCK
-#define MPS2_SYSTEM_CLOCK 25000000UL
-#endif
-
-#ifdef MPS2_BAUD
-#undef MPS2_BAUD
-#endif
-#define MPS2_BAUD 38400UL
-
-/******************************************************************************
- *
- * Platform initialization.
- *
- *****************************************************************************/
-void SystemInit(void);
-
-void SystemInit(void) {
-    // Enable the FPU
-    SCB->CPACR |= ((3UL << 10 * 2) | /* set CP10 Full Access */
-                   (3UL << 11 * 2)); /* set CP11 Full Access */
-
-    // Enable UART
-    CMSDK_GPIO0->ALTFUNCSET |= 1u;
-    CMSDK_GPIO0->ALTFUNCSET |= 2u;
-    CMSDK_UART0->BAUDDIV    = MPS2_SYSTEM_CLOCK / MPS2_BAUD;
-    CMSDK_UART0->CTRL       |= 1 << CMSDK_UART_CTRL_RXEN_Pos;
-    CMSDK_UART0->CTRL       |= 1 << CMSDK_UART_CTRL_TXEN_Pos;
-
-    // Enable SysTick Timer
-    SysTick->LOAD = 0xFFFFFFu;
-    NVIC_SetPriority(SysTick_IRQn, (1UL << __NVIC_PRIO_BITS) - 1UL);
-    NVIC_EnableIRQ(SysTick_IRQn);
-    SysTick->VAL  = 0UL;
-    SysTick->CTRL = SysTick_CTRL_CLKSOURCE_Msk | SysTick_CTRL_TICKINT_Msk |
-                    SysTick_CTRL_ENABLE_Msk;
-}
-
 /******************************************************************************
  *
  * Handlers for semiconfig (for running in QEMU)
@@ -131,7 +93,7 @@ void NMI_Handler(void) {
 }
 
 void HardFault_Handler(void) {
-    printf("HardFault_Handler\n");
+    //printf("HardFault_Handler\n");
     semihosting_syscall(kRunTimeErrorUnknown);
 }
 
@@ -164,17 +126,6 @@ void PendSV_Handler(void) {
     printf("PendSV_Handler\n");
     semihosting_syscall(kApplicationExit);
 }
-
-/******************************************************************************
- *
- * CPU cycle count
- *
- *****************************************************************************/
-
-// Used for counting cycles
-static volatile unsigned long long overflowcnt = 0;
-static inline void SysTick_Handler(void) { ++overflowcnt; }
-static inline uint64_t systick_get_value(void) { return SysTick->VAL; }
 
 void Default_Handler(void) { semihosting_syscall(kApplicationExit); }
 
