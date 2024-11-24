@@ -1,12 +1,12 @@
-# Runtime for stm32f2 platform
+# Runtime for stm32f4 platform
 
 Creates runtime environment that allows running apps on STM32F2. One needs to build the solution, link resulting static library with the application and push to the board. Solution contains implementation of `printf` that sends data over UART to the terminal.
 
 ## Building
 
 ```
-cmake --preset stm32f2
-cmake --build --preset stm32f2
+cmake --preset an386
+cmake --build --preset an386
 ```
 
 Libraries will be compiled and placed in the ``build/pack`` directory.
@@ -16,5 +16,5 @@ Libraries will be compiled and placed in the ``build/pack`` directory.
 
 To run test program:
 ```
-st-flash --reset write out/stm32f2/pack/bin/hello.bin 0x8000000
+qemu-system-arm -M mps2-an386 -nographic -semihosting -kernel out/am386/hello.bin
 ```

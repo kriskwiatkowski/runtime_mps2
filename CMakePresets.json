@@ -7,21 +7,21 @@
     },
     "configurePresets": [
         {
-            "name": "stm32f2",
-            "displayName": "ARMv7-M",
+            "name": "an386",
+            "displayName": "ARMv7e-M",
             "generator": "Ninja",
             "binaryDir": "${sourceDir}/out/${presetName}",
-            "toolchainFile": "toolchains/gcc-armv7_m-unknown-none-eabi.toolchain",
+            "toolchainFile": "toolchains/gcc-armv7e_m-unknown-none-eabi.toolchain",
             "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "MinSizeRel",
-                "EXTRA_C_FLAGS": "-DSTM32F2 -DSTM32"
+                "CMAKE_BUILD_TYPE": "Release",
+                "EXTRA_C_FLAGS": ""
             }
         }
     ],
     "buildPresets": [
         {
-            "name": "stm32f2",
-            "configurePreset": "stm32f2",
+            "name": "an386",
+            "configurePreset": "an386",
             "targets": [
                 "all",
                 "install"
