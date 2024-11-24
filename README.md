@@ -1,4 +1,4 @@
-# Runtime for stm32f4 platform
+# Runtime for ARM MPS2 platform
 
 Creates runtime environment that allows running apps on MPS AN386 (ARM Cortex-M4) and AN385 (ARM Cortex-M3) via QEMU. One needs to build the solution, link resulting static library with the application and push to the board. Solution contains implementation of `printf` that sends data over UART to the terminal.
 
