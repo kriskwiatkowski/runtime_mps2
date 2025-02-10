@@ -5,13 +5,13 @@ project(stm32l4_runtime LANGUAGES C ASM)
 set(MAIN_TARGET mps2-an386_runtime)
 set(CMAKE_VERBOSE_MAKEFILE ON)
 set(CMAKE_C_STANDARD 99)
-set(OUTPUT ${CMAKE_BINARY_DIR}/pack)
+set(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/pack)
 set(CMAKE_INSTALL_BINDIR ${OUTPUT}/bin)
 set(CMAKE_INSTALL_LIBDIR ${OUTPUT}/lib)
 set(CMAKE_INSTALL_SRCDIR ${OUTPUT}/src)
 set(CMAKE_INSTALL_INCLUDEDIR ${OUTPUT}/include/platform)
 set(LINKER_SCRIPT_SRC ${PROJECT_SOURCE_DIR}/src/mps2.src.ld)
-set(LINKER_SCRIPT ${CMAKE_CURRENT_SOURCE_DIR}/mps2.ld)
+set(LINKER_SCRIPT ${PROJECT_SOURCE_DIR}/mps2.ld)
 set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}")
 
 include(postbuild)
@@ -33,10 +33,10 @@ target_sources(
     PUBLIC
     FILE_SET HEADERS
     FILES
-        ${CMAKE_SOURCE_DIR}/inc/platform/printf.h
-        ${CMAKE_SOURCE_DIR}/inc/platform/platform.h
+        ${PROJECT_SOURCE_DIR}/inc/platform/printf.h
+        ${PROJECT_SOURCE_DIR}/inc/platform/platform.h
     BASE_DIRS
-        ${CMAKE_SOURCE_DIR}/inc/platform)
+        ${PROJECT_SOURCE_DIR}/inc/platform)
 
 target_compile_definitions(
     ${MAIN_TARGET} PRIVATE
@@ -46,15 +46,15 @@ target_compile_definitions(
 target_include_directories(
     ${MAIN_TARGET}
     PUBLIC
-        ${CMAKE_SOURCE_DIR}/inc)
+        ${PROJECT_SOURCE_DIR}/inc)
 
 
 # Generate linker script
 add_custom_command(
     OUTPUT ${LINKER_SCRIPT} PRE_BUILD
     DEPENDS ${LINKER_SCRIPT_SRC}
-    COMMAND ${CMAKE_C_COMPILER} -x assembler-with-cpp -DDATA_IN_FLASH -E -Wp,-P -I${CMAKE_SOURCE_DIR}/src ${LINKER_SCRIPT_SRC} -o ${LINKER_SCRIPT}
-    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+    COMMAND ${CMAKE_C_COMPILER} -x assembler-with-cpp -DDATA_IN_FLASH -E -Wp,-P -I${PROJECT_SOURCE_DIR}/src ${LINKER_SCRIPT_SRC} -o ${LINKER_SCRIPT}
+    WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
     COMMENT "Generating linker script for MPS2-ANS386"
     VERBATIM)
 add_custom_target(
@@ -96,6 +96,6 @@ install(
 
 install(
     FILES
-        ${CMAKE_SOURCE_DIR}/src/handlers.c
+        ${PROJECT_SOURCE_DIR}/src/handlers.c
     DESTINATION
         ${CMAKE_INSTALL_SRCDIR})
