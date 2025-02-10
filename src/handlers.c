@@ -93,7 +93,7 @@ void NMI_Handler(void) {
 }
 
 void HardFault_Handler(void) {
-    //printf("HardFault_Handler\n");
+    printf("HardFault_Handler\n");
     semihosting_syscall(kRunTimeErrorUnknown);
 }
 
