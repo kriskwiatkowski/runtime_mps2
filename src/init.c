@@ -23,6 +23,8 @@
 #define MPS2_SYSTEM_CLOCK 25000000UL
 #endif
 
+void systick_handler(void);
+
 /// ############################
 /// Internal implementation
 /// ############################
@@ -55,8 +57,6 @@ static void systick_setup(void) {
     SysTick->CTRL = SysTick_CTRL_CLKSOURCE_Msk | SysTick_CTRL_TICKINT_Msk |
                     SysTick_CTRL_ENABLE_Msk;
 }
-
-static void setup_rng(void) {}
 
 /******************************************************************************
  *
