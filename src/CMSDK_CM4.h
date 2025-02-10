@@ -145,7 +145,7 @@ typedef struct {
             INTSTATUS; /*!< Offset: 0x00C Interrupt Status Register (R/ ) */
         __O uint32_t
             INTCLEAR; /*!< Offset: 0x00C Interrupt Clear Register ( /W) */
-    };
+    } INT;
     __IO uint32_t BAUDDIV; /*!< Offset: 0x010 Baudrate Divider Register (R/W) */
 
 } CMSDK_UART_TypeDef;
@@ -245,7 +245,7 @@ typedef struct {
             INTSTATUS; /*!< Offset: 0x00C Interrupt Status Register (R/ ) */
         __O uint32_t
             INTCLEAR; /*!< Offset: 0x00C Interrupt Clear Register ( /W) */
-    };
+    } INT;
 
 } CMSDK_TIMER_TypeDef;
 
@@ -646,7 +646,7 @@ typedef struct {
             INTSTATUS; /* Offset: 0x038 (R/ ) Interrupt Status Register */
         __O uint32_t
             INTCLEAR; /* Offset: 0x038 ( /W) Interrupt Clear Register */
-    };
+    } INT;
     uint32_t RESERVED1[241];
     __IO uint32_t LB_MASKED
         [256]; /* Offset: 0x400 - 0x7FC Lower byte Masked Access Register (R/W) */
@@ -1002,7 +1002,7 @@ typedef struct {
         //   <o.1>    PE: Parity error <w>
         //   <o.0>    FE: Framing error <w>
         // </h>
-    };
+    } UART;
     uint32_t RESERVED0[4];
     __IO uint32_t UARTFR;  // <h> Flags <r>
     //   <o.8>    RI: Ring indicator <r>
