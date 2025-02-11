@@ -43,7 +43,7 @@ __isr_vector:
     .long    DebugMon_Handler      /* Debug Monitor Handler */
     .long    0                     /* Reserved */
     .long    PendSV_Handler        /* PendSV Handler */
-    .long    systick_handler       /* SysTick Handler */
+    .long    SysTick_Handler       /* SysTick Handler */
 
     /* External Interrupts */
     .long     UARTRX0_Handler           /* UART 0 RX Handler                 */

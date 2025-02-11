@@ -23,7 +23,7 @@
 #define MPS2_SYSTEM_CLOCK 25000000UL
 #endif
 
-void systick_handler(void);
+void SysTick_Handler(void);
 
 /// ############################
 /// Internal implementation
@@ -65,7 +65,7 @@ static void systick_setup(void) {
  *****************************************************************************/
 
 // Used for counting cycles
-void systick_handler(void) { ++stm32_sys_tick_overflowcnt; }
+void SysTick_Handler(void) { ++stm32_sys_tick_overflowcnt; }
 static inline uint64_t systick_get_value(void) { return SysTick->VAL; }
 
 /******************************************************************************
