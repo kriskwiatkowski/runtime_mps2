@@ -22,7 +22,7 @@ endif()
 
 
 add_library(
-    ${MAIN_TARGET} STATIC
+    ${MAIN_TARGET} OBJECT
     src/handlers.c
     src/init.c
     src/printf.c
@@ -65,8 +65,7 @@ add_dependencies(
 
 add_executable(
     hello
-    app/hello.c
-    src/handlers.c)
+    app/hello.c)
 
 target_link_libraries(
     hello
@@ -93,9 +92,3 @@ install(
         ${LINKER_SCRIPT}
     DESTINATION
         ${CMAKE_INSTALL_LIBDIR})
-
-install(
-    FILES
-        ${PROJECT_SOURCE_DIR}/src/handlers.c
-    DESTINATION
-        ${CMAKE_INSTALL_SRCDIR})
