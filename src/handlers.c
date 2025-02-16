@@ -87,13 +87,40 @@ extern void DebugMon_Handler(void);
 extern void PendSV_Handler(void);
 extern void Default_Handler(void);
 
-void NMI_Handler(void) {
-    printf("NMI_Handler\n");
+#if defined(NDEBUG)
+typedef struct {
+    uint32_t R0, R1, R2, R3, R12, LR, PC, xPSR;
+} HardFaultStackFrame;
+
+void HardFault_HandlerC(HardFaultStackFrame *stackFrame) {
+    printf("Hard Fault!\n");
+    printf("R0  = 0x%08X\n", stackFrame->R0);
+    printf("R1  = 0x%08X\n", stackFrame->R1);
+    printf("R2  = 0x%08X\n", stackFrame->R2);
+    printf("R3  = 0x%08X\n", stackFrame->R3);
+    printf("R12 = 0x%08X\n", stackFrame->R12);
+    printf("LR  = 0x%08X\n", stackFrame->LR);
+    printf("PC  = 0x%08X\n", stackFrame->PC);
+    printf("xPSR= 0x%08X\n", stackFrame->xPSR);
+}
+#endif
+
+__attribute__((naked)) void HardFault_Handler(void) {
+#if defined(NDEBUG)
+    printf("HardFault_Handler\n");
+#else
+    __asm volatile(
+        "TST lr, #4         \n"
+        "ITE EQ             \n"
+        "MRSEQ r0, MSP      \n"
+        "MRSNE r0, PSP      \n"
+        "B HardFault_HandlerC");
+#endif
     semihosting_syscall(kRunTimeErrorUnknown);
 }
 
-void HardFault_Handler(void) {
-    printf("HardFault_Handler\n");
+void NMI_Handler(void) {
+    printf("NMI_Handler\n");
     semihosting_syscall(kRunTimeErrorUnknown);
 }
 
