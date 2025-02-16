@@ -13,6 +13,13 @@ cmake --build --preset an386
 
 Libraries will be compiled and placed in the ``build/pack`` directory.
 
+## Linking with applications
+
+For some of the symbols, the runtime defines weak and strong symbols. It is hence important to use ``--whole-archive`` linker flag when linking the .a file.
+
+Normally, the linker only extracts object files from the library if they provide undefined symbols required by the application. While linking, if the application gets a weak symbol it won't try to resolve strong one. Weak symbols do not create unresolved references, so if any symbol is already defined (even as a weak symbol), the linker does not search ``.a`` for another definition. It is called lazy extraction.
+
+Use of the ``--whole-archive`` linker flag when linking the ``.a`` forces the linker to extract all the symbols, preventing the lazy extraction behavior.
 
 ## Test program
 

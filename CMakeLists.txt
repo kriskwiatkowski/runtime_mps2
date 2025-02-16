@@ -22,7 +22,7 @@ endif()
 
 
 add_library(
-    ${MAIN_TARGET} OBJECT
+    ${MAIN_TARGET} STATIC
     src/handlers.c
     src/init.c
     src/printf.c
@@ -48,7 +48,6 @@ target_include_directories(
     PUBLIC
         ${PROJECT_SOURCE_DIR}/inc)
 
-
 # Generate linker script
 add_custom_command(
     OUTPUT ${LINKER_SCRIPT} PRE_BUILD
@@ -73,7 +72,9 @@ target_link_libraries(
 
 target_link_options(
     hello PRIVATE
-    "-T${LINKER_SCRIPT}" -nostartfiles)
+    "-T${LINKER_SCRIPT}" -nostartfiles
+    -Wl,--whole-archive $<TARGET_FILE_NAME:${MAIN_TARGET}> -Wl,--no-whole-archive)
+
 target_postbuild_executable(hello ${CMAKE_INSTALL_BINDIR})
 
 install(
