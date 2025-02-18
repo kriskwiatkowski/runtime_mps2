@@ -142,27 +142,6 @@ system_startup:
  * will be weak symbol and just dead loops. They can be
  * overwritten by other handlers
  */
-    .macro    def_default_handler    handler_name
-    .align 1
-    .thumb_func
-    .weak    \handler_name
-    .type    \handler_name, %function
-\handler_name :
-    b    .
-    .size    \handler_name, . - \handler_name
-    .endm
-
-    def_default_handler    NMI_Handler
-    def_default_handler    HardFault_Handler
-    def_default_handler    MemManage_Handler
-    def_default_handler    BusFault_Handler
-    def_default_handler    UsageFault_Handler
-    def_default_handler    SVC_Handler
-    def_default_handler    DebugMon_Handler
-    def_default_handler    PendSV_Handler
-    def_default_handler    SysTick_Handler
-    def_default_handler    Default_Handler
-
     .macro    def_irq_default_handler    handler_name
     .weak     \handler_name
     .set      \handler_name, Default_Handler
