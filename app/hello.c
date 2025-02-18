@@ -21,7 +21,6 @@ int main(void) {
     platform_init(PLATFORM_CLOCK_MAX);
     platform_sync();
     size_t i = 0;
-    struct platform_attr_t a;
 
     uint64_t t = platform_cpu_cyclecount();
     i++;

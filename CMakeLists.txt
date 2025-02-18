@@ -20,7 +20,6 @@ if (CMAKE_BUILD_TYPE MATCHES "Debug")
     string(APPEND CMAKE_C_FLAGS " -O0")
 endif()
 
-
 add_library(
     ${MAIN_TARGET} STATIC
     src/handlers.c
