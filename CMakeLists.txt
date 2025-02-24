@@ -1,34 +1,38 @@
 cmake_minimum_required(VERSION 3.10)
-include(FetchContent)
 
-project(stm32l4_runtime LANGUAGES C ASM)
-set(MAIN_TARGET mps2-an386_runtime)
+project(
+    mps2_runtime
+    VERSION 0.0.2
+    LANGUAGES C ASM)
+
+enable_language(C)
+enable_language(ASM)
+
 set(CMAKE_VERBOSE_MAKEFILE ON)
 set(CMAKE_C_STANDARD 99)
-set(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/pack)
-set(CMAKE_INSTALL_BINDIR ${OUTPUT}/bin)
-set(CMAKE_INSTALL_LIBDIR ${OUTPUT}/lib)
-set(CMAKE_INSTALL_SRCDIR ${OUTPUT}/src)
-set(CMAKE_INSTALL_INCLUDEDIR ${OUTPUT}/include/platform)
+
+set(RUNNER_TARGET mps2_runtime)
+set(CMAKE_INSTALL_SRCDIR src)
+set(CMAKE_INSTALL_LIBDIR lib) # Force LIBDIR to "lib" name.
+set(CMAKE_INSTALL_INCLUDEDIR include/platform)
 set(LINKER_SCRIPT_SRC ${PROJECT_SOURCE_DIR}/src/mps2.src.ld)
 set(LINKER_SCRIPT ${PROJECT_SOURCE_DIR}/mps2.ld)
 set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}")
 
-include(postbuild)
+include(GNUInstallDirs)
+include(cmake/postbuild)
 
-if (CMAKE_BUILD_TYPE MATCHES "Debug")
-    string(APPEND CMAKE_C_FLAGS " -O0")
-endif()
+# ---- Declare target library ----
 
 add_library(
-    ${MAIN_TARGET} STATIC
+    ${RUNNER_TARGET} STATIC
     src/handlers.c
     src/init.c
     src/printf.c
     src/startup.S)
 
 target_sources(
-    ${MAIN_TARGET}
+    ${RUNNER_TARGET}
     PUBLIC
     FILE_SET HEADERS
     FILES
@@ -38,14 +42,14 @@ target_sources(
         ${PROJECT_SOURCE_DIR}/inc/platform)
 
 target_compile_definitions(
-    ${MAIN_TARGET} PRIVATE
+    ${RUNNER_TARGET} PRIVATE
     ${EXTRA_C_FLAGS}
     -DDATA_IN_FLASH)
 
 target_include_directories(
-    ${MAIN_TARGET}
-    PUBLIC
-        ${PROJECT_SOURCE_DIR}/inc)
+    ${RUNNER_TARGET} PUBLIC
+    $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/inc>
+    $<INSTALL_INTERFACE:inc>)
 
 # Generate linker script
 add_custom_command(
@@ -55,11 +59,22 @@ add_custom_command(
     WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
     COMMENT "Generating linker script for MPS2-ANS386"
     VERBATIM)
+
 add_custom_target(
-    ${MAIN_TARGET}_link
+    ${RUNNER_TARGET}_genlink
     DEPENDS ${LINKER_SCRIPT})
+
 add_dependencies(
-    ${MAIN_TARGET} ${MAIN_TARGET}_link)
+    ${RUNNER_TARGET} ${RUNNER_TARGET}_genlink)
+
+include(GenerateExportHeader)
+generate_export_header(
+    ${RUNNER_TARGET}
+    BASE_NAME ${RUNNER_TARGET}
+    EXPORT_FILE_NAME export/${RUNNER_TARGET}/${RUNNER_TARGET}_export.h
+)
+
+# ---- Declare target sample app ----
 
 add_executable(
     hello
@@ -67,28 +82,13 @@ add_executable(
 
 target_link_libraries(
     hello
-    ${MAIN_TARGET})
+    ${RUNNER_TARGET})
 
 target_link_options(
     hello PRIVATE
     "-T${LINKER_SCRIPT}" -nostartfiles
-    -Wl,--whole-archive $<TARGET_FILE_NAME:${MAIN_TARGET}> -Wl,--no-whole-archive)
+    -Wl,--whole-archive $<TARGET_FILE_NAME:${RUNNER_TARGET}> -Wl,--no-whole-archive)
 
 target_postbuild_executable(hello ${CMAKE_INSTALL_BINDIR})
 
-install(
-    TARGETS ${MAIN_TARGET}
-    ARCHIVE
-    PUBLIC_HEADER
-    FILE_SET HEADERS)
-
-install(
-    FILES
-        ${CMAKE_CURRENT_BINARY_DIR}/hello.bin
-    DESTINATION ${CMAKE_INSTALL_BINDIR})
-
-install(
-    FILES
-        ${LINKER_SCRIPT}
-    DESTINATION
-        ${CMAKE_INSTALL_LIBDIR})
+include(cmake/install-rules.cmake)
