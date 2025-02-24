@@ -4,12 +4,7 @@ set(CMAKE_SYSTEM_PROCESSOR armv7e-m)
 set(pfx arm-none-eabi)
 set(CMAKE_C_COMPILER ${pfx}-gcc)
 
-# Set arch for source compilation
-set(C_FLAGS "-march=${CMAKE_SYSTEM_PROCESSOR} -mcpu=cortex-m4 -mfloat-abi=soft")
-# Use Thumb2 also and possibility to switch between Thumb2 and ARM (maybe not needed here)
-set(C_FLAGS "${C_FLAGS} -mthumb ")
-# Generate a separate ELF section for each function in the source file
-#set(C_FLAGS "${C_FLAGS} -ffunction-sections -fdata-sections")
+set(C_FLAGS "${C_FLAGS} -ffunction-sections -fdata-sections")
 set(CMAKE_C_FLAGS_INIT ${C_FLAGS} CACHE INTERNAL "" FORCE)
 
 set(CMAKE_TOOLCHAIN_CMD_STRIP ${pfx}-strip)
