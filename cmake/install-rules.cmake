@@ -3,11 +3,11 @@ set(EXPORT_TARGET ${RUNNER_TARGET}_target)
 
 include(CMakePackageConfigHelpers)
 write_basic_package_version_file(
-    "${CMAKE_CURRENT_BINARY_DIR}/${package}ConfigVersion.cmake"
+    "${CMAKE_CURRENT_BINARY_DIR}/${RUNNER_TARGET}ConfigVersion.cmake"
     COMPATIBILITY SameMajorVersion
 )
 install(
-    FILES ${CMAKE_CURRENT_BINARY_DIR}/${package}ConfigVersion.cmake
+    FILES ${CMAKE_CURRENT_BINARY_DIR}/${RUNNER_TARGET}ConfigVersion.cmake
     DESTINATION ".")
 install(
     FILES ${LINKER_SCRIPT}
@@ -21,7 +21,7 @@ install(
 install(
     EXPORT ${EXPORT_TARGET}
     NAMESPACE ${RUNNER_TARGET}::
-    DESTINATION ".")
+    DESTINATION "cmake")
 
 # ---- Install sample app ----
 install(

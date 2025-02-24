@@ -11,7 +11,7 @@ enable_language(ASM)
 set(CMAKE_VERBOSE_MAKEFILE ON)
 set(CMAKE_C_STANDARD 99)
 
-set(RUNNER_TARGET mps2_runtime)
+set(RUNNER_TARGET mps2rtm)
 set(CMAKE_INSTALL_SRCDIR src)
 set(CMAKE_INSTALL_LIBDIR lib) # Force LIBDIR to "lib" name.
 set(CMAKE_INSTALL_INCLUDEDIR include/platform)
@@ -53,7 +53,7 @@ target_compile_options(
 target_include_directories(
     ${RUNNER_TARGET} PUBLIC
     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/inc>
-    $<INSTALL_INTERFACE:inc>)
+    $<INSTALL_INTERFACE:include>)
 
 # Generate linker script
 add_custom_command(
