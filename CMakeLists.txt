@@ -42,9 +42,13 @@ target_sources(
         ${PROJECT_SOURCE_DIR}/inc/platform)
 
 target_compile_definitions(
-    ${RUNNER_TARGET} PRIVATE
+    ${RUNNER_TARGET} PUBLIC
     ${EXTRA_C_FLAGS}
     -DDATA_IN_FLASH)
+
+target_compile_options(
+    ${RUNNER_TARGET} PUBLIC
+    -march=${CMAKE_SYSTEM_PROCESSOR} -mfloat-abi=soft -mthumb)
 
 target_include_directories(
     ${RUNNER_TARGET} PUBLIC
