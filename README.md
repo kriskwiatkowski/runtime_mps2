@@ -9,6 +9,7 @@ There are 2 configurations : 'an385' (Cortex-M3) and 'an386' (Cortex-M4). Here b
 ```
 cmake --preset an386
 cmake --build --preset an386
+cpack --preset an386
 ```
 
 Libraries will be compiled and placed in the ``build/pack`` directory.

@@ -96,3 +96,8 @@ target_link_options(
 target_postbuild_executable(hello ${CMAKE_INSTALL_BINDIR})
 
 include(cmake/install-rules.cmake)
+
+set(CPACK_GENERATOR "TGZ")
+set(CPACK_PACKAGE_VERSION ${PROJECT_VERSION})
+set(CPACK_PACKAGE_FILE_NAME "${RUNNER_TARGET}_${FLAVOUR}_${PROJECT_VERSION}")
+include(CPack)
