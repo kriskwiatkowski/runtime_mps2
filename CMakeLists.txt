@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.10)
 
 project(
     mps2_runtime
-    VERSION 0.0.3
+    VERSION 0.0.4
     LANGUAGES C ASM)
 
 enable_language(C)
