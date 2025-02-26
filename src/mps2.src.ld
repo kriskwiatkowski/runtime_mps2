@@ -32,7 +32,7 @@
 #include "cmsis_nvic.h"
 
 #if !defined(MBED_CONF_TARGET_BOOT_STACK_SIZE)
-    #define MBED_CONF_TARGET_BOOT_STACK_SIZE 0x400
+    #define MBED_CONF_TARGET_BOOT_STACK_SIZE 0x32000
 #endif
 
 MEMORY

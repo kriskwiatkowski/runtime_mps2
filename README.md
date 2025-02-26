@@ -7,6 +7,10 @@ Creates runtime environment that allows running apps on MPS AN386 (ARM Cortex-M4
 There are 2 configurations : 'an385' (Cortex-M3) and 'an386' (Cortex-M4). Here below I'll build for 'an386'.
 
 ```
+cmake --preset an385
+cmake --build --preset an385
+cpack --preset an385
+
 cmake --preset an386
 cmake --build --preset an386
 cpack --preset an386
