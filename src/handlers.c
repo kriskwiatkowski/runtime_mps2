@@ -87,12 +87,12 @@ extern void DebugMon_Handler(void);
 extern void PendSV_Handler(void);
 extern void Default_Handler(void);
 
-#if defined(NDEBUG)
+#if !defined(NDEBUG)
 typedef struct {
     uint32_t R0, R1, R2, R3, R12, LR, PC, xPSR;
 } HardFaultStackFrame;
 
-void HardFault_HandlerC(HardFaultStackFrame *stackFrame) {
+__attribute__((used)) void HardFault_HandlerC(HardFaultStackFrame *stackFrame) {
     printf("Hard Fault!\n");
     printf("R0  = 0x%08X\n", stackFrame->R0);
     printf("R1  = 0x%08X\n", stackFrame->R1);

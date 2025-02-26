@@ -7,48 +7,120 @@
     },
     "configurePresets": [
         {
-            "name": "an385",
-            "displayName": "ARMv7-M",
+            "name": "base",
             "generator": "Ninja",
+            "hidden": true,
             "binaryDir": "${sourceDir}/out/build/${presetName}",
+            "cacheVariables": {
+                "CMAKE_INSTALL_PREFIX": "${sourceDir}/out/${presetName}"
+            }
+        },
+        {
+            "name": "an385",
+            "displayName": "ARMv7-M Release",
+            "inherits": "base",
             "toolchainFile": "toolchains/gcc-armv7_m-unknown-none-eabi.toolchain",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Release",
                 "EXTRA_C_FLAGS": "-DMPS2_AN385",
-                "CMAKE_INSTALL_PREFIX": "${sourceDir}/out/${presetName}",
                 "FLAVOUR": "AN385"
             }
         },
         {
             "name": "an386",
-            "displayName": "ARMv7e-M",
-            "generator": "Ninja",
-            "binaryDir": "${sourceDir}/out/build/${presetName}",
+            "inherits": "base",
+            "displayName": "ARMv7e-M Release",
             "toolchainFile": "toolchains/gcc-armv7e_m-unknown-none-eabi.toolchain",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Release",
                 "EXTRA_C_FLAGS": "-DMPS2_AN386",
-                "CMAKE_INSTALL_PREFIX": "${sourceDir}/out/${presetName}",
+                "FLAVOUR": "AN386"
+            }
+        },
+        {
+            "name": "an385-minsizerel",
+            "inherits": "base",
+            "displayName": "ARMv7-M Size optimized",
+            "toolchainFile": "toolchains/gcc-armv7_m-unknown-none-eabi.toolchain",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "MinSizeRel",
+                "EXTRA_C_FLAGS": "-DMPS2_AN385",
+                "FLAVOUR": "AN385"
+            }
+        },
+        {
+            "name": "an386-minsizerel",
+            "inherits": "base",
+            "displayName": "ARMv7e-M Size optimized",
+            "toolchainFile": "toolchains/gcc-armv7e_m-unknown-none-eabi.toolchain",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "MinSizeRel",
+                "EXTRA_C_FLAGS": "-DMPS2_AN386",
+                "FLAVOUR": "AN386"
+            }
+        },
+        {
+            "name": "an385-debug",
+            "inherits": "base",
+            "displayName": "ARMv7-M RelWithDebInfo",
+            "toolchainFile": "toolchains/gcc-armv7_m-unknown-none-eabi.toolchain",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "RelWithDebInfo",
+                "EXTRA_C_FLAGS": "-DMPS2_AN385",
+                "FLAVOUR": "AN385"
+            }
+        },
+        {
+            "name": "an386-debug",
+            "inherits": "base",
+            "displayName": "ARMv7e-M RelWithDebInfo",
+            "toolchainFile": "toolchains/gcc-armv7e_m-unknown-none-eabi.toolchain",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "RelWithDebInfo",
+                "EXTRA_C_FLAGS": "-DMPS2_AN386",
                 "FLAVOUR": "AN386"
             }
         }
     ],
     "buildPresets": [
         {
-            "name": "an385",
+            "name": "base",
             "configurePreset": "an385",
+            "hidden": true,
             "targets": [
                 "all",
                 "install"
             ]
         },
         {
+            "name": "an385",
+            "configurePreset": "an385",
+            "inherits": "base"
+        },
+        {
             "name": "an386",
             "configurePreset": "an386",
-            "targets": [
-                "all",
-                "install"
-            ]
+            "inherits": "base"
+        },
+        {
+            "name": "an385-minsizerel",
+            "configurePreset": "an385-minsizerel",
+            "inherits": "base"
+        },
+        {
+            "name": "an386-minsizerel",
+            "configurePreset": "an386-minsizerel",
+            "inherits": "base"
+        },
+        {
+            "name": "an385-debug",
+            "configurePreset": "an385-debug",
+            "inherits": "base"
+        },
+        {
+            "name": "an386-debug",
+            "configurePreset": "an386-debug",
+            "inherits": "base"
         }
     ],
     "packagePresets": [
@@ -60,6 +132,26 @@
         {
             "name": "an386",
             "configurePreset": "an386",
+            "packageDirectory": "${sourceDir}/out/package/${presetName}"
+        },
+        {
+            "name": "an385-minsizerel",
+            "configurePreset": "an385-minsizerel",
+            "packageDirectory": "${sourceDir}/out/package/${presetName}"
+        },
+        {
+            "name": "an386-minsizerel",
+            "configurePreset": "an386-minsizerel",
+            "packageDirectory": "${sourceDir}/out/package/${presetName}"
+        },
+        {
+            "name": "an385-debug",
+            "configurePreset": "an385-debug",
+            "packageDirectory": "${sourceDir}/out/package/${presetName}"
+        },
+        {
+            "name": "an386-debug",
+            "configurePreset": "an386-debug",
             "packageDirectory": "${sourceDir}/out/package/${presetName}"
         }
     ]
