@@ -22,7 +22,6 @@
             "toolchainFile": "toolchains/gcc-armv7_m-unknown-none-eabi.toolchain",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Release",
-                "EXTRA_C_FLAGS": "-DMPS2_AN385",
                 "FLAVOUR": "AN385"
             }
         },
@@ -44,7 +43,6 @@
             "toolchainFile": "toolchains/gcc-armv7_m-unknown-none-eabi.toolchain",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "MinSizeRel",
-                "EXTRA_C_FLAGS": "-DMPS2_AN385",
                 "FLAVOUR": "AN385"
             }
         },
@@ -66,7 +64,6 @@
             "toolchainFile": "toolchains/gcc-armv7_m-unknown-none-eabi.toolchain",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "RelWithDebInfo",
-                "EXTRA_C_FLAGS": "-DMPS2_AN385",
                 "FLAVOUR": "AN385"
             }
         },
