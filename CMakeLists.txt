@@ -48,7 +48,7 @@ target_compile_definitions(
 
 target_compile_options(
     ${RUNNER_TARGET} PUBLIC
-    -march=${CMAKE_SYSTEM_PROCESSOR} -mfloat-abi=soft -mthumb)
+    -march=${CMAKE_SYSTEM_PROCESSOR} -mthumb -mthumb -mthumb-interwork -mfloat-abi=soft)
 
 target_include_directories(
     ${RUNNER_TARGET} PUBLIC
