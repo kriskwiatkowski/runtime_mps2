@@ -13,6 +13,9 @@
  *
  */
 
+#ifndef MPS2_PLATFORM_H_
+#define MPS2_PLATFORM_H_
+
 #include <stddef.h>
 #include <stdint.h>
 
@@ -49,3 +52,5 @@ int platform_get_random(void *out, unsigned len);
 void platform_sync(void);
 
 uint64_t platform_mps2_stack_size(void);
+
+#endif  // MPS2_PLATFORM_H_
