@@ -131,11 +131,12 @@ zero:
 
 system_startup:
     mov    r0, #0 // Sets nargs to 0. Currently there is no possibility to pass arguments.
-    ldr    r4, =main
+    ldr    r4, =startup_
     bx     r4
+
+end:
     .pool
     .size Reset_Handler, . - Reset_Handler
-
     .text
 /*
  * Macro to define default handlers. Default handler

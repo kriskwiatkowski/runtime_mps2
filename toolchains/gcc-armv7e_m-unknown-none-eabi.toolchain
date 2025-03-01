@@ -4,8 +4,24 @@ set(CMAKE_SYSTEM_PROCESSOR armv7e-m)
 set(pfx arm-none-eabi)
 set(CMAKE_C_COMPILER ${pfx}-gcc)
 
-set(C_FLAGS "${C_FLAGS}")
+# Set arch for source compilation
+set(C_FLAGS "-march=${CMAKE_SYSTEM_PROCESSOR}")
+# Use Thumb2 also and possibility to switch between Thumb2 and ARM (maybe not needed here)
+set(C_FLAGS "${C_FLAGS} -mthumb -mthumb-interwork -mfloat-abi=soft")
+# Generate a separate ELF section for each function in the source file
 set(CMAKE_C_FLAGS_INIT ${C_FLAGS} CACHE INTERNAL "" FORCE)
+
+# Set arch for linker
+set(LINKER_FLAGS "-march=${CMAKE_SYSTEM_PROCESSOR}")
+# Don't use sys.specs
+#Use nano-specs, only. It defines system calls that should be implemented as
+# stubs that return errors when called (-lnosys)
+set(LINKER_FLAGS "-specs=nosys.specs -specs=nano.specs -lnosys ")
+# Generate a separate ELF section for each function in the source file
+set(LINKER_FLAGS "${LINKER_FLAGS} -Wl,-gc-sections -ffunction-sections -fdata-sections ")
+# Provide nice table with memory usage at the end of the build process
+set(LINKER_FLAGS "${LINKER_FLAGS} -Wl,--print-memory-usage")
+set(CMAKE_EXE_LINKER_FLAGS_INIT ${LINKER_FLAGS} CACHE INTERNAL "" FORCE)
 
 set(CMAKE_TOOLCHAIN_CMD_STRIP ${pfx}-strip)
 set(OBJCOPY ${pfx}-objcopy CACHE INTERNAL "")

@@ -71,9 +71,16 @@ static uint32_t semihosting_syscall(const uint32_t arg) {
     return nr;
 }
 
-// Signals to QEMU program exit.
-static void __attribute__((destructor)) semihosting_exit(void) {
-    semihosting_syscall(kApplicationExit);
+int main(void);
+
+// Startup call, calls main() and checks return code. Exits properly
+// if main return 0, otherwise returns kRunTimeErrorUnknown code
+void startup_(void) {
+    int r = main();
+    if (!r) {
+        semihosting_syscall(kApplicationExit);
+    }
+    semihosting_syscall(kRunTimeErrorUnknown);
 }
 
 // Declare functions to avoid reporting errors caused by "-Wmissing-prototypes"
