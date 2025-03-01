@@ -46,10 +46,6 @@ target_compile_definitions(
     ${EXTRA_C_FLAGS}
     -DDATA_IN_FLASH)
 
-target_compile_options(
-    ${RUNNER_TARGET} PUBLIC
-    -march=${CMAKE_SYSTEM_PROCESSOR} -mthumb -mthumb -mthumb-interwork -mfloat-abi=soft)
-
 target_include_directories(
     ${RUNNER_TARGET} PUBLIC
     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/inc>
