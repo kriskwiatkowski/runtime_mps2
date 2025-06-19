@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.10)
 
 project(
     mps2_runtime
-    VERSION 0.0.5
+    VERSION 0.0.6
     LANGUAGES C ASM)
 
 enable_language(C)
@@ -57,7 +57,7 @@ add_custom_command(
     DEPENDS ${LINKER_SCRIPT_SRC}
     COMMAND ${CMAKE_C_COMPILER} -x assembler-with-cpp -DDATA_IN_FLASH -E -Wp,-P -I${PROJECT_SOURCE_DIR}/src ${LINKER_SCRIPT_SRC} -o ${LINKER_SCRIPT}
     WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
-    COMMENT "Generating linker script for MPS2-ANS386"
+    COMMENT "Generating linker script for MPS2"
     VERBATIM)
 
 add_custom_target(

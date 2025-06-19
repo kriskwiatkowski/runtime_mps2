@@ -30,7 +30,7 @@ void SysTick_Handler(void);
 /// ############################
 
 static void setup_fpu(void) {
-#if defined(MPS2_AN386)
+#if defined(MPS2_ENABLE_FPU)
     // Enable the FPU
     SCB->CPACR |= ((3UL << 10 * 2) | /* set CP10 Full Access */
                    (3UL << 11 * 2)); /* set CP11 Full Access */
