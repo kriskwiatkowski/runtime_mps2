@@ -44,7 +44,8 @@ target_sources(
 target_compile_definitions(
     ${RUNNER_TARGET} PUBLIC
     ${EXTRA_C_FLAGS}
-    -DDATA_IN_FLASH)
+    -DDATA_IN_FLASH
+    -DMPS2_${FLAVOUR})
 
 target_include_directories(
     ${RUNNER_TARGET} PUBLIC

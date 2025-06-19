@@ -18,9 +18,14 @@
 
 #include "CMSDK_CM4.h"
 
-// Set clock to 25MHz (default on MPS2)
 #ifndef MPS2_SYSTEM_CLOCK
+#if defined(MPS2_AN500)
+// Set clock to 600MHz
+#define MPS2_SYSTEM_CLOCK 60000000UL
+#else
+// Set clock to 25MhZ (default on MPS2)
 #define MPS2_SYSTEM_CLOCK 25000000UL
+#endif
 #endif
 
 void SysTick_Handler(void);
