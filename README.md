@@ -29,11 +29,16 @@ Use of the ``--whole-archive`` linker flag when linking the ``.a`` forces the li
 ## Test program
 
 To run test program on Cortex M3:
-```
+```bash
 qemu-system-arm -M mps2-an385 -nographic -semihosting -kernel out/an385/hello.bin
 ```
 
 To run test program on Cortex M4:
-```
+```bash
 qemu-system-arm -M mps2-an386 -nographic -semihosting -kernel out/an386/hello.bin
 ```
+
+To run with output on the telnet console:
+```bash
+qemu-system-arm -M mps2-an385 -nographic -kernel hello.bin -serial tcp::1234,server,nowait
+````
