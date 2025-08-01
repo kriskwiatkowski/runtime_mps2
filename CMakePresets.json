@@ -32,7 +32,7 @@
             "toolchainFile": "toolchains/gcc-armv7e_m-unknown-none-eabi.toolchain",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Release",
-                "EXTRA_C_FLAGS": "-DMPS2_ENABLE_FPU",
+                "EXTRA_C_DEFINES": "-DMPS2_ENABLE_FPU",
                 "FLAVOUR": "AN386"
             }
         },
@@ -55,13 +55,25 @@
             }
         },
         {
+            "name": "an385-minsizerel-armcompat",
+            "inherits": "base",
+            "displayName": "ARMv7-M Size optimized, ARM compiler compatible",
+            "toolchainFile": "toolchains/gcc-armv7_m-unknown-none-eabi.toolchain",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "MinSizeRel",
+                "FLAVOUR": "AN385",
+                "EXTRA_C_COMPILE_OPTIONS": "-fshort-wchar",
+                "PACK_CUSTOMIZATION": "-armcompat"
+            }
+        },
+        {
             "name": "an386-minsizerel",
             "inherits": "base",
             "displayName": "ARMv7e-M Size optimized",
             "toolchainFile": "toolchains/gcc-armv7e_m-unknown-none-eabi.toolchain",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "MinSizeRel",
-                "EXTRA_C_FLAGS": "-DMPS2_ENABLE_FPU",
+                "EXTRA_C_DEFINES": "-DMPS2_ENABLE_FPU",
                 "FLAVOUR": "AN386"
             }
         },
@@ -90,7 +102,7 @@
             "toolchainFile": "toolchains/gcc-armv7e_m-unknown-none-eabi.toolchain",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "RelWithDebInfo",
-                "EXTRA_C_FLAGS": "-DMPS2_ENABLE_FPU",
+                "EXTRA_C_DEFINES": "-DMPS2_ENABLE_FPU",
                 "FLAVOUR": "AN386"
             }
         },
@@ -131,6 +143,11 @@
         {
             "name": "an385-minsizerel",
             "configurePreset": "an385-minsizerel",
+            "inherits": "base"
+        },
+        {
+            "name": "an385-minsizerel-armcompat",
+            "configurePreset": "an385-minsizerel-armcompat",
             "inherits": "base"
         },
         {
@@ -178,6 +195,11 @@
         {
             "name": "an385-minsizerel",
             "configurePreset": "an385-minsizerel",
+            "packageDirectory": "${sourceDir}/out/package/${presetName}"
+        },
+        {
+            "name": "an385-minsizerel-armcompat",
+            "configurePreset": "an385-minsizerel-armcompat",
             "packageDirectory": "${sourceDir}/out/package/${presetName}"
         },
         {

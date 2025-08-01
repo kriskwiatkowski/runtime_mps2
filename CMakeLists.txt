@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.10)
 
 project(
     mps2_runtime
-    VERSION 0.0.6
+    VERSION 0.0.7
     LANGUAGES C ASM)
 
 enable_language(C)
@@ -43,9 +43,14 @@ target_sources(
 
 target_compile_definitions(
     ${RUNNER_TARGET} PUBLIC
-    ${EXTRA_C_FLAGS}
+    ${EXTRA_C_DEFINES}
     -DDATA_IN_FLASH
     -DMPS2_${FLAVOUR})
+
+# Public interface compile options
+target_compile_options(
+    ${RUNNER_TARGET} PUBLIC
+    ${EXTRA_C_COMPILE_OPTIONS})
 
 target_include_directories(
     ${RUNNER_TARGET} PUBLIC
@@ -98,5 +103,5 @@ string(TOLOWER "${CMAKE_BUILD_TYPE}" CMAKE_BUILD_TYPE_LOW)
 
 set(CPACK_GENERATOR "TGZ")
 set(CPACK_PACKAGE_VERSION ${PROJECT_VERSION})
-set(CPACK_PACKAGE_FILE_NAME "${RUNNER_TARGET}_${FLAVOUR}_${PROJECT_VERSION}_${CMAKE_BUILD_TYPE_LOW}")
+set(CPACK_PACKAGE_FILE_NAME "${RUNNER_TARGET}_${FLAVOUR}_${PROJECT_VERSION}_${CMAKE_BUILD_TYPE_LOW}${PACK_CUSTOMIZATION}")
 include(CPack)
