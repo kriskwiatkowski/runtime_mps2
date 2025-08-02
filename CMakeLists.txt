@@ -29,6 +29,7 @@ add_library(
     src/handlers.c
     src/init.c
     src/printf.c
+    src/uart.c
     src/startup.S)
 
 target_sources(
@@ -91,6 +92,25 @@ target_link_options(
     -Wl,--whole-archive $<TARGET_FILE_NAME:${RUNNER_TARGET}> -Wl,--no-whole-archive)
 
 target_postbuild_executable(hello ${CMAKE_INSTALL_BINDIR})
+
+
+# ---- Declare target sample acvp ----
+
+add_executable(
+    io_echo
+    app/io_echo.c)
+
+target_link_libraries(
+    io_echo
+    ${RUNNER_TARGET})
+
+target_link_options(
+    io_echo PRIVATE
+    "-T${LINKER_SCRIPT}" -nostartfiles
+    -Wl,--whole-archive $<TARGET_FILE_NAME:${RUNNER_TARGET}> -Wl,--no-whole-archive)
+
+target_postbuild_executable(io_echo ${CMAKE_INSTALL_BINDIR})
+
 
 include(cmake/install-rules.cmake)
 

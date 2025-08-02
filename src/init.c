@@ -17,16 +17,7 @@
 #include <stddef.h>
 
 #include "CMSDK_CM4.h"
-
-#ifndef MPS2_SYSTEM_CLOCK
-#if defined(MPS2_AN500)
-// Set clock to 600MHz
-#define MPS2_SYSTEM_CLOCK 60000000UL
-#else
-// Set clock to 25MhZ (default on MPS2)
-#define MPS2_SYSTEM_CLOCK 25000000UL
-#endif
-#endif
+#include "uart.h"
 
 void SysTick_Handler(void);
 
@@ -43,15 +34,6 @@ static void setup_fpu(void) {
 }
 
 volatile unsigned long long stm32_sys_tick_overflowcnt = 0;
-
-static void usart_setup(unsigned long baud) {
-    // Enable UART
-    CMSDK_GPIO0->ALTFUNCSET |= 1u;
-    CMSDK_GPIO0->ALTFUNCSET |= 2u;
-    CMSDK_UART0->BAUDDIV    = MPS2_SYSTEM_CLOCK / baud;
-    CMSDK_UART0->CTRL       |= 1 << CMSDK_UART_CTRL_RXEN_Pos;
-    CMSDK_UART0->CTRL       |= 1 << CMSDK_UART_CTRL_TXEN_Pos;
-}
 
 static void systick_setup(void) {
     // Enable SysTick Timer
@@ -78,11 +60,7 @@ static inline uint64_t systick_get_value(void) { return SysTick->VAL; }
  * I/O
  *
  *****************************************************************************/
-void _putchar(char character) {
-    do {
-    } while (CMSDK_UART0->STATE & CMSDK_UART_STATE_TXBF_Msk);
-    CMSDK_UART0->DATA = (int)character & 0xFFu;
-}
+void _putchar(char character) { uart_putc(uart_get_port(), character); }
 
 static volatile unsigned long long overflowcnt = 0;
 
@@ -93,7 +71,7 @@ static volatile unsigned long long overflowcnt = 0;
 int platform_init(platform_op_mode_t a) {
     (void)a;
     setup_fpu();
-    usart_setup(115200UL);
+    uart_init(uart_get_port());
     systick_setup();
     // wait for the first systick overflow
     // improves reliability of the benchmarking scripts since it makes it much
@@ -132,4 +110,39 @@ uint64_t platform_mps2_stack_size(void) {
     register char* cur_stack;
     __asm__ volatile("mov %0, sp" : "=r"(cur_stack));
     return cur_stack - heap_end;
+}
+
+int platform_io_is_readable(void) { return uart_is_readable(uart_get_port()); }
+
+int platform_io_is_writable(void) { return uart_is_writable(uart_get_port()); }
+
+int platform_io_write(const char* buf, int len) {
+    int i, w;
+    if (len <= 0) {
+        return 0;  // Nothing to write
+    }
+
+    for (w = 0, i = 0; i < len; ++i) {
+        uart_putc(uart_get_port(), buf[i]);
+        ++w;
+    }
+
+    return w;
+}
+
+int platform_io_read(char* buf, int len) {
+    int i, r;
+
+    if (len <= 0) {
+        return 0;  // Nothing to read
+    }
+
+    for (r = 0, i = 0; i < len; ++i) {
+        if (!uart_is_readable(uart_get_port())) {
+            break;  // No more data to read
+        }
+        buf[i] = uart_getc(uart_get_port());
+        ++r;
+    }
+    return r;
 }
