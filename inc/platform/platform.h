@@ -53,4 +53,44 @@ void platform_sync(void);
 
 uint64_t platform_mps2_stack_size(void);
 
+/**
+ * Check if the serial peripheral is readable.
+ *
+ * @brief This is a non-blocking call, checking if the peripheral is readable.
+ * @returns 1 when I/O is readable, 0 when not readable, negative value on error.
+ */
+int platform_io_is_readable(void);
+
+/**
+ * Check if the serial peripheral is writable
+ *
+ * @brief This is a non-blocking call, checking if the peripheral is writable.
+ * @returns 1 when I/O is writable, 0 when not writable, negative value on error.
+ */
+int platform_io_is_writable(void);
+
+/**
+ * Write a string.
+ *
+ * @brief This is a blocking call, waiting for I/O to be writable.
+ *
+ * @param[out] buf Buffer to store the string to be written.
+ * @param[in] len Length of the buffer to write.
+ *
+ * @returns Number of bytes written to I/O, or -1 on error.
+ */
+int platform_io_write(const char *buf, int len);
+
+/**
+ * Read a string.
+ *
+ * @brief This is a blocking call, waiting for a string of bytes from I/O.
+ *
+ * @param[out] buf Buffer to store the read string.
+ * @param[in] len Length of the buffer to read.
+ *
+ * @returns Number of bytes read from I/O, or -1 on error.
+ */
+int platform_io_read(char *buf, int len);
+
 #endif  // MPS2_PLATFORM_H_
