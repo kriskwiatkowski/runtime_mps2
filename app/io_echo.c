@@ -14,7 +14,6 @@
 
 #include <platform/platform.h>
 #include <platform/printf.h>
-#include <platform/uart.h>
 #include <stddef.h>
 #include <stdint.h>
 
@@ -25,16 +24,14 @@ int main(void) {
     char c;
 
     printf("Type something:\n");
-
     while (1) {
-        c = uart_getc(uart_get_port());
+        platform_io_read(&c, 1);
         printf("GOT: ");
-        uart_putc(uart_get_port(), c);
+        platform_io_write(&c, 1);
         printf("\n");
         if (c == 'q') {
             break;
         }
     }
-    uart_clear(uart_get_port());
     return 0;
 }

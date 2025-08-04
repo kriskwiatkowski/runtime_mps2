@@ -138,9 +138,6 @@ int platform_io_read(char* buf, int len) {
     }
 
     for (r = 0, i = 0; i < len; ++i) {
-        if (!uart_is_readable(uart_get_port())) {
-            break;  // No more data to read
-        }
         buf[i] = uart_getc(uart_get_port());
         ++r;
     }
