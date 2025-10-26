@@ -126,10 +126,14 @@ void platform_sync(void) {
 
 /* End of BSS is where the heap starts (defined in the linker script) */
 extern char end;
-static char* heap_end = &end;
+//static char* heap_end = &end;
 
 uint64_t platform_mps2_stack_size(void) {
+#if defined(__CC_ARM)
+    return 0;
+#else
     register char* cur_stack;
     __asm__ volatile("mov %0, sp" : "=r"(cur_stack));
     return cur_stack - heap_end;
+#endif
 }

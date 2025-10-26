@@ -26,6 +26,18 @@
             }
         },
         {
+            "name": "an385-armcc",
+            "displayName": "ARMv7-M Release",
+            "inherits": "base",
+            "toolchainFile": "toolchains/armcc-arm-unknown-none-eabi-host-win64.toolchain",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release",
+                "FLAVOUR": "AN385",
+                "EXTRA_C_FLAGS": "--cpu=CORTEX-M3 --apcs=interwork",
+                "EXTRA_ASM_FLAGS": "--cpu=CORTEX-M3 --apcs=interwork"
+            }
+        },
+        {
             "name": "an386",
             "inherits": "base",
             "displayName": "ARMv7e-M Release - AN386",
@@ -131,6 +143,11 @@
             "inherits": "base"
         },
         {
+            "name": "an385-armcc",
+            "configurePreset": "an385-armcc",
+            "inherits": "base"
+        },
+        {
             "name": "an386",
             "configurePreset": "an386",
             "inherits": "base"
@@ -180,6 +197,11 @@
         {
             "name": "an385",
             "configurePreset": "an385",
+            "packageDirectory": "${sourceDir}/out/package/${presetName}"
+        },
+        {
+            "name": "an385-armcc",
+            "configurePreset": "an385-armcc",
             "packageDirectory": "${sourceDir}/out/package/${presetName}"
         },
         {

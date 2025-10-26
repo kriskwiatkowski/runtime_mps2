@@ -1,0 +1,19 @@
+; The vector table is loaded at address 0x00000000 in Flash memory region.
+LR_IROM1 0x00000000 0x00400000 { ; load region size_region
+    ER_IROM1 0x00000000 0x00400000 { ; load address = execution address
+      *.o (RESET, +First)
+      *(InRoot$$Sections)
+      *(+RO)
+    }
+
+    ; ((16 + 48) * 4) Total: 64 vectors = 256 bytes (0x100) to be reserved in RAM
+    RW_IRAM1 (0x20000000 + ((16 + 48) * 4)) (0x00400000 - ((16 + 48) * 4) - 0x400) { ; RW data
+      *(+RW +ZI)
+    }
+
+    ARM_LIB_HEAP AlignExpr(+0, 16) EMPTY (0x00400000 - (0x400 + ((16 + 48) * 4)) - (AlignExpr(ImageLimit(RW_IRAM1), 16) - 0x20000000)) { ; Heap growing upward
+    }
+
+    ARM_LIB_STACK (0x20000000 + 0x00400000) EMPTY - 0x400 { ; Stack region growing down
+    }
+}

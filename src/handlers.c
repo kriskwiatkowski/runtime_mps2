@@ -60,6 +60,7 @@ enum {
 // Do a system call towards QEMU or the debugger.
 static uint32_t semihosting_syscall(const uint32_t arg) {
     uint32_t nr = 0x18;  // Exeption reporting
+#if 0
     __asm__ volatile(
         "mov r0, %[nr]\n"
         "mov r1, %[arg]\n"
@@ -68,6 +69,7 @@ static uint32_t semihosting_syscall(const uint32_t arg) {
         : [nr] "+r"(nr)
         : [arg] "r"(arg)
         : "0", "1");
+#endif
     return nr;
 }
 
@@ -112,16 +114,18 @@ __attribute__((used)) void HardFault_HandlerC(HardFaultStackFrame *stackFrame) {
 }
 #endif
 
-__attribute__((naked)) void HardFault_Handler(void) {
+void HardFault_Handler(void) {
 #if defined(NDEBUG)
     printf("HardFault_Handler\n");
 #else
+#if !defined(__CC_ARM)
     __asm volatile(
         "TST lr, #4         \n"
         "ITE EQ             \n"
         "MRSEQ r0, MSP      \n"
         "MRSNE r0, PSP      \n"
         "B HardFault_HandlerC");
+#endif
 #endif
     semihosting_syscall(kRunTimeErrorUnknown);
 }
