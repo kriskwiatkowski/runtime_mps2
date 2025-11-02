@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.10)
 
 project(
     mps2_runtime
-    VERSION 0.0.7
+    VERSION 0.0.8
     LANGUAGES C ASM)
 
 enable_language(C)
@@ -50,8 +50,8 @@ target_compile_definitions(
 
 # Public interface compile options
 target_compile_options(
-    ${RUNNER_TARGET} PUBLIC
-    ${EXTRA_C_COMPILE_OPTIONS})
+	${RUNNER_TARGET} PRIVATE
+    	${EXTRA_C_COMPILE_OPTIONS})
 
 target_include_directories(
     ${RUNNER_TARGET} PUBLIC
