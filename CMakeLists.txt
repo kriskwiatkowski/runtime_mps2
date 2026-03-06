@@ -16,7 +16,7 @@ set(CMAKE_INSTALL_SRCDIR src)
 set(CMAKE_INSTALL_LIBDIR lib) # Force LIBDIR to "lib" name.
 set(CMAKE_INSTALL_INCLUDEDIR include/platform)
 set(LINKER_SCRIPT_SRC ${PROJECT_SOURCE_DIR}/src/mps2.src.ld)
-set(LINKER_SCRIPT ${PROJECT_SOURCE_DIR}/mps2.ld)
+set(LINKER_SCRIPT ${CMAKE_CURRENT_BINARY_DIR}/mps2.ld)
 set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}")
 
 include(GNUInstallDirs)
@@ -62,7 +62,7 @@ target_include_directories(
 add_custom_command(
     OUTPUT ${LINKER_SCRIPT} PRE_BUILD
     DEPENDS ${LINKER_SCRIPT_SRC}
-    COMMAND ${CMAKE_C_COMPILER} -x assembler-with-cpp -DDATA_IN_FLASH -E -Wp,-P -I${PROJECT_SOURCE_DIR}/src ${LINKER_SCRIPT_SRC} -o ${LINKER_SCRIPT}
+    COMMAND ${CMAKE_C_COMPILER} -x assembler-with-cpp -DDATA_IN_FLASH -DMPS2_${FLAVOUR} -E -Wp,-P -I${PROJECT_SOURCE_DIR}/src ${LINKER_SCRIPT_SRC} -o ${LINKER_SCRIPT}
     WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
     COMMENT "Generating linker script for MPS2"
     VERBATIM)

@@ -18,7 +18,7 @@
 #include <platform/printf.h>
 #include <stddef.h>
 
-#include "CMSDK_CM4.h"
+#include "device.h"
 
 /******************************************************************************
  *

@@ -45,6 +45,16 @@
             }
         },
         {
+            "name": "an521",
+            "inherits": "base",
+            "displayName": "ARMv8-M Release - AN521",
+            "toolchainFile": "toolchains/gcc-armv8_m-unknown-none-eabi.toolchain",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release",
+                "FLAVOUR": "AN521"
+            }
+        },
+        {
             "name": "an385-minsizerel",
             "inherits": "base",
             "displayName": "ARMv7-M Size optimized",
@@ -86,6 +96,16 @@
             }
         },
         {
+            "name": "an521-minsizerel",
+            "inherits": "base",
+            "displayName": "ARMv8-M Size optimized - AN521",
+            "toolchainFile": "toolchains/gcc-armv8_m-unknown-none-eabi.toolchain",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "MinSizeRel",
+                "FLAVOUR": "AN521"
+            }
+        },
+        {
             "name": "an385-debug",
             "inherits": "base",
             "displayName": "ARMv7-M RelWithDebInfo",
@@ -112,6 +132,16 @@
             "displayName": "ARMv7e-M RelWithDebInfo - AN500",
             "cacheVariables": {
                 "FLAVOUR": "AN500"
+            }
+        },
+        {
+            "name": "an521-debug",
+            "inherits": "base",
+            "displayName": "ARMv8-M RelWithDebInfo - AN521",
+            "toolchainFile": "toolchains/gcc-armv8_m-unknown-none-eabi.toolchain",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "RelWithDebInfo",
+                "FLAVOUR": "AN521"
             }
         }
     ],
@@ -141,6 +171,11 @@
             "inherits": "base"
         },
         {
+            "name": "an521",
+            "configurePreset": "an521",
+            "inherits": "base"
+        },
+        {
             "name": "an385-minsizerel",
             "configurePreset": "an385-minsizerel",
             "inherits": "base"
@@ -161,6 +196,11 @@
             "inherits": "base"
         },
         {
+            "name": "an521-minsizerel",
+            "configurePreset": "an521-minsizerel",
+            "inherits": "base"
+        },
+        {
             "name": "an385-debug",
             "configurePreset": "an385-debug",
             "inherits": "base"
@@ -173,6 +213,11 @@
         {
             "name": "an500-debug",
             "configurePreset": "an500-debug",
+            "inherits": "base"
+        },
+        {
+            "name": "an521-debug",
+            "configurePreset": "an521-debug",
             "inherits": "base"
         }
     ],
@@ -193,6 +238,11 @@
             "packageDirectory": "${sourceDir}/out/package/${presetName}"
         },
         {
+            "name": "an521",
+            "configurePreset": "an521",
+            "packageDirectory": "${sourceDir}/out/package/${presetName}"
+        },
+        {
             "name": "an385-minsizerel",
             "configurePreset": "an385-minsizerel",
             "packageDirectory": "${sourceDir}/out/package/${presetName}"
@@ -213,6 +263,11 @@
             "packageDirectory": "${sourceDir}/out/package/${presetName}"
         },
         {
+            "name": "an521-minsizerel",
+            "configurePreset": "an521-minsizerel",
+            "packageDirectory": "${sourceDir}/out/package/${presetName}"
+        },
+        {
             "name": "an385-debug",
             "configurePreset": "an385-debug",
             "packageDirectory": "${sourceDir}/out/package/${presetName}"
@@ -225,6 +280,11 @@
         {
             "name": "an500-debug",
             "configurePreset": "an500-debug",
+            "packageDirectory": "${sourceDir}/out/package/${presetName}"
+        },
+        {
+            "name": "an521-debug",
+            "configurePreset": "an521-debug",
             "packageDirectory": "${sourceDir}/out/package/${presetName}"
         }
     ]

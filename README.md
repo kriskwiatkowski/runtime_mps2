@@ -1,10 +1,10 @@
 # Runtime for ARM MPS2 platform
 
-Creates runtime environment that allows running apps on MPS AN386 (ARM Cortex-M4) and AN385 (ARM Cortex-M3) via QEMU. One needs to build the solution, link resulting static library with the application and push to the board. Solution contains implementation of `printf` that sends data over UART to the terminal.
+Creates runtime environment that allows running apps on MPS AN386 (ARM Cortex-M4), AN385 (ARM Cortex-M3), and AN521 (ARM Cortex-M33) via QEMU. One needs to build the solution, link resulting static library with the application and push to the board. Solution contains implementation of `printf` that sends data over UART to the terminal.
 
 ## Building
 
-There are 2 configurations : 'an385' (Cortex-M3) and 'an386' (Cortex-M4). Here below I'll build for 'an386'.
+There are multiple configurations: 'an385' (Cortex-M3), 'an386' (Cortex-M4), and 'an521' (Cortex-M33). Here below I'll build for 'an386'.
 
 ```
 cmake --preset an385
@@ -14,6 +14,10 @@ cpack --preset an385
 cmake --preset an386
 cmake --build --preset an386
 cpack --preset an386
+
+cmake --preset an521
+cmake --build --preset an521
+cpack --preset an521
 ```
 
 Libraries will be compiled and placed in the ``build/pack`` directory.
@@ -36,6 +40,11 @@ qemu-system-arm -M mps2-an385 -nographic -semihosting -kernel out/an385/hello.bi
 To run test program on Cortex M4:
 ```bash
 qemu-system-arm -M mps2-an386 -nographic -semihosting -kernel out/an386/hello.bin
+```
+
+To run test program on Cortex M33:
+```bash
+qemu-system-arm -M mps2-an521 -nographic -semihosting -kernel out/an521/hello.bin
 ```
 
 To run with output on the telnet console:

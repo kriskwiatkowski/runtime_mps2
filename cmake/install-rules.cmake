@@ -25,7 +25,10 @@ install(
     DESTINATION "cmake")
 
 # ---- Install sample app ----
+# Install the ELF as hello.bin: QEMU identifies ELF by magic bytes (not extension),
+# so this lets `qemu-system-arm ... -kernel out/an521/hello.bin` load correctly.
 install(
     FILES
-        ${CMAKE_CURRENT_BINARY_DIR}/hello.bin
-    DESTINATION ${CMAKE_INSTALL_BINDIR})
+        ${CMAKE_CURRENT_BINARY_DIR}/hello
+    DESTINATION .
+    RENAME hello.bin)
