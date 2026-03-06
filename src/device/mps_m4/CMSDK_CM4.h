@@ -45,7 +45,6 @@ extern "C" {
 
 /* -------------------------  Interrupt Number Definition  ------------------------ */
 
-#ifndef CMSDK_CM4_H_IRQN_INCLUDED
 typedef enum IRQn {
     /* -------------------  Cortex-M3 Processor Exceptions Numbers  ------------------- */
     NonMaskableInt_IRQn   = -14, /*  2 Non Maskable Interrupt          */
@@ -99,7 +98,6 @@ typedef enum IRQn {
     PORT0_6_IRQn = 30, /*!<  GPIO Port 0 pin 6 Interrupt                      */
     PORT0_7_IRQn = 31, /*!<  GPIO Port 0 pin 7 Interrupt                      */
 } IRQn_Type;
-#endif /* CMSDK_CM4_H_IRQN_INCLUDED */
 
 /*
  * ==========================================================================
@@ -107,7 +105,6 @@ typedef enum IRQn {
  * ==========================================================================
  */
 
-#ifndef CMSDK_CM4_H_CORE_INCLUDED
 /* Configuration of the Cortex-M4 Processor and Core Peripherals */
 #define __CM4_REV \
     0x0001 /*!< Core Revision r0p1                               */
@@ -120,10 +117,7 @@ typedef enum IRQn {
 
 /*@}*/ /* end of group CMSDK_CM4_CMSIS */
 
-#ifndef CMSDK_CM4_H_CORE_INCLUDED
 #include "core_cm4.h" /* Cortex-M4 processor and core peripherals           */
-#endif
-#endif /* CMSDK_CM4_H_CORE_INCLUDED guard for config defines */
 
 /******************************************************************************/
 /*                Device Specific Peripheral registers structures             */

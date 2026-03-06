@@ -16,8 +16,7 @@
 
 #include <stdbool.h>
 
-#include "CMSDK_CM4.h"
-#include "core_cm4.h"
+#include "device.h"
 #include "lib.h"
 #include "uart.h"
 
@@ -33,9 +32,13 @@ void uart_init(struct uart_t *obj) {
     obj->uart->CTRL |= 1 << CMSDK_UART_CTRL_RXEN_Pos;  // RX enable
     obj->uart->CTRL |= 1 << CMSDK_UART_CTRL_TXEN_Pos;  // TX enable
 
-    // Set the GPIO pins for UART
+    // Set the GPIO pins for UART alternate function.
+    // AN521 uses a different GPIO base address and the pin-mux is not
+    // required by QEMU, so skip it to avoid a bus fault on AN521.
+#if !defined(MPS2_AN521)
     CMSDK_GPIO0->ALTFUNCSET |= 1u;
     CMSDK_GPIO0->ALTFUNCSET |= 2u;
+#endif
 
     // set default baud rate and format
     (void)uart_set_baud(obj, 115200UL);
@@ -54,7 +57,7 @@ bool uart_set_baud(struct uart_t *obj, unsigned long baudrate) {
     */
     int b = MPS2_SYSTEM_CLOCK / baudrate;
 
-    if (b >= 16) {
+    if (b < 16) {
         // Check minimum baud rate
         return false;
     }

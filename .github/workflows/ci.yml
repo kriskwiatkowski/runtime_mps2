@@ -1,0 +1,111 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        preset: [an385, an386, an500, an521, an385-minsizerel, an385-minsizerel-armcompat, an386-minsizerel, an500-minsizerel, an521-minsizerel, an385-debug, an386-debug, an500-debug, an521-debug]
+        include:
+          - preset: an385
+            machine: mps2-an385
+          - preset: an386
+            machine: mps2-an386
+          - preset: an500
+            machine: mps2-an500
+          - preset: an521
+            machine: mps2-an521
+          - preset: an385-minsizerel
+            machine: mps2-an385
+          - preset: an385-minsizerel-armcompat
+            machine: mps2-an385
+          - preset: an386-minsizerel
+            machine: mps2-an386
+          - preset: an500-minsizerel
+            machine: mps2-an500
+          - preset: an521-minsizerel
+            machine: mps2-an521
+          - preset: an385-debug
+            machine: mps2-an385
+          - preset: an386-debug
+            machine: mps2-an386
+          - preset: an500-debug
+            machine: mps2-an500
+          - preset: an521-debug
+            machine: mps2-an521
+    
+    env:
+      QEMU_PATH: ${{ github.workspace }}/qemu/bin
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y \
+          cmake \
+          ninja-build \
+          gcc-arm-none-eabi \
+          libfdt1
+
+    - name: Install QEMU
+      run: |
+        echo "Installing QEMU from amongbytes.com"
+        wget -q https://amongbytes.com/sw/qemu/x86_64-unknown-linux-gnu-ubuntu-22.04-qemu_v10.2.0-2.tar.gz
+        mkdir -p qemu
+        tar -xzf x86_64-unknown-linux-gnu-ubuntu-22.04-qemu_v10.2.0-2.tar.gz -C qemu
+        ${{ env.QEMU_PATH }}/qemu-system-arm --version
+
+    - name: Configure CMake
+      run: cmake --preset ${{ matrix.preset }}
+
+    - name: Build
+      run: cmake --build --preset ${{ matrix.preset }}
+
+    - name: Install binaries
+      run: cpack --preset ${{ matrix.preset }}
+
+    - name: Run hello.bin with QEMU
+      id: run-test
+      run: |
+        timeout 5 ${{ env.QEMU_PATH }}/qemu-system-arm \
+          -M ${{ matrix.machine }} \
+          -nographic \
+          -semihosting \
+          -kernel out/${{ matrix.preset }}/hello.bin \
+          > output.txt 2>&1 || true
+        cat output.txt
+        echo "output<<EOF" >> $GITHUB_OUTPUT
+        cat output.txt >> $GITHUB_OUTPUT
+        echo "EOF" >> $GITHUB_OUTPUT
+
+    - name: Verify output
+      run: |
+        if grep -q "Hello world" output.txt; then
+          echo "Test passed: Found 'Hello world' in output"
+          exit 0
+        else
+          echo "Test failed: 'Hello world' not found in output"
+          cat output.txt
+          exit 1
+        fi
+
+    - name: Upload artifacts
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: binaries-${{ matrix.preset }}
+        path: |
+          out/${{ matrix.preset }}/*.bin
+          out/${{ matrix.preset }}/*.elf
+        retention-days: 7

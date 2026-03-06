@@ -22,11 +22,7 @@
  * This file is derivative of CMSIS V5.00 startup_ARMCM3.S
  */
     .syntax unified
-#if defined(MPS2_AN521)
-    .arch armv8-m.main
-#else
     .arch armv7-m
-#endif
 
     .section .vector_table,"a",%progbits
     .align 2
@@ -92,15 +88,6 @@ __isr_vector:
     .globl   Reset_Handler
     .type    Reset_Handler, %function
 Reset_Handler:
-#if defined(MPS2_AN521)
-    /* mps2-an521 has two Cortex-M33 CPUs sharing the same reset vector.
-     * Read MPIDR to identify the CPU: Aff0=0 means CPU0, Aff0=1 means CPU1.
-     * CPU1 spins here; only CPU0 proceeds with initialization. */
-    ldr    r0, =0xE000ED90
-    ldr    r0, [r0]
-    ands   r0, r0, #0xFF
-    bne    cpu1_sleep
-#endif
 /*
  * Loop to copy data from read only memory to RAM. The ranges
  * of copy from/to are specified by following symbols evaluated in
@@ -150,13 +137,6 @@ system_startup:
 end:
     .pool
     .size Reset_Handler, . - Reset_Handler
-
-#if defined(MPS2_AN521)
-    .thumb_func
-cpu1_sleep:
-    wfe
-    b      cpu1_sleep
-#endif
     .text
 /*
  * Macro to define default handlers. Default handler

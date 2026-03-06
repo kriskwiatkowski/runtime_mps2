@@ -19,6 +19,9 @@
 #if defined(MPS2_AN500)
 // Set clock to 600MHz
 #define MPS2_SYSTEM_CLOCK 60000000UL
+#elif defined(MPS2_AN521)
+// Set clock to 20MHz (AN521 default)
+#define MPS2_SYSTEM_CLOCK 20000000UL
 #else
 // Set clock to 25MhZ (default on MPS2)
 #define MPS2_SYSTEM_CLOCK 25000000UL
