@@ -35,7 +35,7 @@ Designed for research and early-stage development: integrate `libmps2rtm.a` into
 |--------|-------|------------|--------------------------|
 | an385  | AN385 | Cortex-M3  | ARMv7-M                  |
 | an386  | AN386 | Cortex-M4  | ARMv7E-M + FPU           |
-| an500  | AN500 | Cortex-M4  | ARMv7E-M + FPU (600 MHz) |
+| an500  | AN500 | Cortex-M7  | ARMv7E-M + FPU (600 MHz) |
 | an521  | AN521 | Cortex-M33 | ARMv8-M.main             |
 
 Each target has 4 MiB instruction SRAM and 4 MiB data SRAM with a 200 KB stack.
